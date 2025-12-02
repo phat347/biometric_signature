@@ -306,9 +306,9 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
             checkBiometricAvailability(activity, useDeviceCredentials)
             authenticate(
                 activity,
-                "Authenticate to create keys",
+                "Sử dụng sinh trắc học để tạo khóa",
                 null,
-                "Cancel",
+                "Hủy",
                 useDeviceCredentials,
                 null
             )
@@ -360,9 +360,9 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
             // Authenticate with a no-crypto prompt for enforcement only
             authenticate(
                 activity,
-                "Authenticate to create keys",
+                "Sử dụng sinh trắc học để tạo khóa",
                 null,
-                "Cancel",
+                "Hủy",
                 useDeviceCredentials,
                 null
             )
@@ -385,9 +385,9 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
         checkBiometricAvailability(activity, useDeviceCredentials)
         val authResult = authenticate(
             activity,
-            "Authenticate to create keys",
+            "Sử dụng sinh trắc học để tạo khóa",
             null,
-            "Cancel",
+            "Hủy",
             useDeviceCredentials,
             BiometricPrompt.CryptoObject(cipherForWrap)
         )
@@ -865,7 +865,7 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
     private fun getBiometricAvailability(): String {
         val act = activity ?: return "none, NO_ACTIVITY"
         val manager = BiometricManager.from(act)
-        val canAuth = manager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+        val canAuth = manager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)
         return if (canAuth == BiometricManager.BIOMETRIC_SUCCESS) {
             detectBiometricType()
         } else {
@@ -890,7 +890,7 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
         val otherString = listOf("face", "iris", ",")
         val otherBiometrics = otherString.filter {
             BiometricManager.from(activity!!)
-                .getStrings(BiometricManager.Authenticators.BIOMETRIC_WEAK)?.buttonLabel
+                .getStrings(BiometricManager.Authenticators.BIOMETRIC_STRONG)?.buttonLabel
                 .toString().contains(it, ignoreCase = true)
         }
 
@@ -1008,9 +1008,9 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
 
     private fun getAuthenticators(allowDeviceCredentials: Boolean): Int {
         return if (allowDeviceCredentials && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+            BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
         } else {
-            BiometricManager.Authenticators.BIOMETRIC_WEAK
+            BiometricManager.Authenticators.BIOMETRIC_STRONG
         }
     }
 
