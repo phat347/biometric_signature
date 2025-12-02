@@ -1021,9 +1021,9 @@ class BiometricSignaturePlugin : FlutterPlugin, MethodCallHandler, ActivityAware
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val authType = if (useDeviceCredentials) {
-                KeyProperties.AUTH_BIOMETRIC_WEAK or KeyProperties.AUTH_DEVICE_CREDENTIAL
+                KeyProperties.AUTH_BIOMETRIC_STRONG or KeyProperties.AUTH_DEVICE_CREDENTIAL
             } else {
-                KeyProperties.AUTH_BIOMETRIC_WEAK
+                KeyProperties.AUTH_BIOMETRIC_STRONG
             }
             builder.setUserAuthenticationParameters(0, authType)
         } else {
